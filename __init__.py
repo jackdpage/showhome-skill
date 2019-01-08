@@ -1,4 +1,5 @@
 from mycroft import MycroftSkill, intent_file_handler
+import requests
 
 
 class Showhome(MycroftSkill):
@@ -7,7 +8,17 @@ class Showhome(MycroftSkill):
 
     @intent_file_handler('showhome.intent')
     def handle_showhome(self, message):
-        self.speak_dialog('showhome')
+        loc = message.data['loc']
+        state = message.data['state']
+        ip = self.settings['ip']
+        port = self.settings['port']
+
+        url = 'http://'+ip+':'+str(port)+'/eos/group/apply_preset/label'
+
+        request = requests.put(url, data={'loc': loc, 'state': state})
+
+        if request.text != 'null':
+            self.speak_dialog('showhome.error', {'text': request.text})
 
 
 def create_skill():

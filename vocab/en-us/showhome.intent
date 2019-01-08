@@ -1,5 +1,2 @@
-Turn the kitchen lights blue
-Turn the living room lights on
-Turn the hallway lights red
-Make the kitchen lights green
-Make the bathroom lights orange
+Turn the {loc} lights {state}
+Make the {loc} ligths {state}
