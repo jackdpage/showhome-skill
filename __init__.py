@@ -1,16 +1,15 @@
-from mycroft import MycroftSkill, intent_file_handler
+from mycroft import MycroftSkill, intent_handler
 import requests
 
 
 class Showhome(MycroftSkill):
-    def __init__(self):
-        MycroftSkill.__init__(self)
-        
-        ip = self.settings['ip']
-        port = self.settings['port']
+
+    def initialize(self):
+        ip = self.settings.get('ip')
+        port = self.settings.get('port')
         self.base_url = 'http://'+ip+':'+str(port)
 
-    @intent_file_handler('eos.apply.intent')
+    @intent_handler('eos.apply.intent')
     def handle_eos(self, message):
         loc = message.data['loc']
         state = message.data['state']
@@ -22,7 +21,7 @@ class Showhome(MycroftSkill):
         if request.text != 'null':
             self.speak_dialog('showhome.error', {'text': request.text})
 
-    @intent_file_handler('x32.send.intent')
+    @intent_handler('x32.send.intent')
     def handle_x32_on(self, message):
         src = message.data['src']
         dest = message.data['dest']
@@ -34,7 +33,7 @@ class Showhome(MycroftSkill):
         if request.text != 'null':
             self.speak_dialog('showhome.error', {'text': request.text})
 
-    @intent_file_handler('x32.stop.intent')
+    @intent_handler('x32.stop.intent')
     def handle_x32_off(self, message):
         src = message.data['src']
         dest = message.data['dest']
